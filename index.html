@@ -9,6 +9,8 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <!-- Three.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- EmailJS SDK -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
@@ -199,7 +201,7 @@
     </div>
 </section>
 
-<!-- Modern Footer Section (Incorporating Contact Info) -->
+<!-- Modern Footer Section -->
 <footer class="relative z-10 pt-20 border-t border-white/10 bg-black/40 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-6 pb-12">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
@@ -219,7 +221,6 @@
                 <ul class="space-y-4 text-gray-400">
                     <li><a href="#" class="hover:text-blue-400 transition">Home</a></li>
                     <li><a href="#services" class="hover:text-blue-400 transition">Services</a></li>
-                    <li><a href="#order-form" class="hover:text-blue-400 transition">Contact</a></li>
                 </ul>
             </div>
 
@@ -236,12 +237,11 @@
                 </div>
                 <div class="flex items-center gap-4 group">
                     <div class="w-10 h-10 rounded-full glass flex items-center justify-center text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition">📍</div>
-                    <span class="text-gray-400">Gurugram  Sector 72A, India</span>
+                    <span class="text-gray-400">Gurugram Sector 72A, India</span>
                 </div>
             </div>
         </div>
 
-        <!-- Copyright Line -->
         <div class="text-center pt-8 border-t border-white/5 text-gray-500 text-sm">
             <p>&copy; 2026 3B Web Tech. All rights reserved. <span class="text-blue-500">Powered by 3B Developer.</span></p>
         </div>
@@ -251,53 +251,43 @@
 <!-- Three.js Logic -->
 <script>
     let scene, camera, renderer, object;
-
     function init() {
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById('canvas-container').appendChild(renderer.domElement);
-
         const geometry = new THREE.IcosahedronGeometry(12, 1);
-        const material = new THREE.MeshPhongMaterial({ 
-            color: 0x3b82f6, 
-            wireframe: true,
-            transparent: true,
-            opacity: 0.5
-        });
+        const material = new THREE.MeshPhongMaterial({ color: 0x3b82f6, wireframe: true, transparent: true, opacity: 0.5 });
         object = new THREE.Mesh(geometry, material);
         scene.add(object);
-
         const light = new THREE.PointLight(0xffffff, 1, 100);
         light.position.set(20, 20, 20);
         scene.add(light);
         scene.add(new THREE.AmbientLight(0x404040));
-
         camera.position.z = 40;
     }
-
     function animate() {
         requestAnimationFrame(animate);
         object.rotation.x += 0.003;
         object.rotation.y += 0.003;
         renderer.render(scene, camera);
     }
-
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
-
-    init();
-    animate();
+    init(); animate();
 </script>
 
-<!-- Firebase Integration -->
+<!-- Firebase & EmailJS Integration -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // 1. Initialize EmailJS with your Public Key
+    emailjs.init("SLPmf9hvW35np6Ur-");
 
     const firebaseConfig = {
         apiKey: "AIzaSyA8c3pdrI7aC9Ur10OKTYDkMyrffEJyugg",
@@ -332,12 +322,17 @@
         };
 
         try {
+            // A. Save to Firebase Database
             await addDoc(collection(db, "requests"), formData);
+
+            // B. Send Real-time Email Notification
+            await emailjs.send("service_asie8ze", "template_gydbuw9", formData);
+
             alert("Success! Hum aapse jald hi contact karenge.");
             clientForm.reset();
         } catch (error) {
-            console.error("Firestore Error: ", error);
-            alert("Error: " + error.message);
+            console.error("Error: ", error);
+            alert("Something went wrong! Please try again.");
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalText;
