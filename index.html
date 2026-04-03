@@ -24,7 +24,41 @@
         scroll-behavior: smooth;
     }
 
-    /* 3D Canvas Background */
+    /* --- LANDING PRELOADER STYLE --- */
+    #preloader {
+        position: fixed;
+        inset: 0;
+        background: #050505;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    .loader-text {
+        font-size: 3rem;
+        font-weight: 900;
+        letter-spacing: 0.5rem;
+        color: #3b82f6;
+        text-shadow: 0 0 20px #3b82f6;
+        animation: pulse 1.5s infinite alternate;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 0.5; transform: scale(0.95); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+    #main-content {
+        opacity: 0;
+        transition: opacity 1s ease;
+    }
+
+    /* --- ORIGINAL DESIGN STYLES --- */
     canvas {
         position: fixed;
         top: 0;
@@ -32,14 +66,12 @@
         z-index: -1;
     }
 
-    /* Glassmorphism Effect */
     .glass {
         background: rgba(255, 255, 255, 0.03);
         backdrop-filter: blur(15px);
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    /* Form Inputs Style Update */
     .form-input {
         background: rgba(255, 255, 255, 0.05) !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -57,14 +89,7 @@
         outline: none;
     }
 
-    select option {
-        background-color: #111 !important;
-        color: white !important;
-    }
-
-    .neon-text {
-        text-shadow: 0 0 15px #3b82f6;
-    }
+    .neon-text { text-shadow: 0 0 15px #3b82f6; }
 
     .gradient-text {
         background: linear-gradient(90deg, #3b82f6, #9333ea);
@@ -83,173 +108,218 @@
     ::-webkit-scrollbar-track { background: #050505; }
     ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
     
-    .loading-spinner {
-        border: 3px solid rgba(255,255,255,0.3);
-        border-radius: 50%;
-        border-top: 3px solid white;
-        width: 20px;
-        height: 20px;
-        animation: spin 1s linear infinite;
-        display: inline-block;
-        margin-right: 10px;
-    }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    /* FAQ Modal Scrollbar Hider */
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    #faqModal { transition: opacity 0.3s ease, visibility 0.3s ease; }
 </style>
 </head>
-<body>
+<body class="overflow-hidden">
 
-<div id="canvas-container"></div>
+<!-- 1. LANDING PRELOADER SCREEN -->
+<div id="preloader">
+    <div class="loader-text">3B WEB TECH</div>
+    <div class="mt-4 text-gray-500 tracking-[0.3em] text-xs uppercase animate-pulse">Innovating Your Digital World</div>
+</div>
 
-<!-- Navigation -->
-<nav class="flex justify-between items-center p-6 max-w-7xl mx-auto relative z-10">
-    <div class="flex items-center gap-2">
-        <img src="assets/images/logo.png.png" alt="3B Logo" class="brand-logo">
-        <span class="text-2xl font-black tracking-widest text-blue-500 neon-text uppercase">3B WEB TECH</span>
-    </div>
+<div id="main-content">
+    <div id="canvas-container"></div>
 
-    <div class="space-x-8 hidden md:flex items-center">
-        <a href="#services" class="hover:text-blue-400 transition font-medium">Services</a>
-        <a href="#order-form" class="hover:text-blue-400 transition font-medium">Contact</a>
-        <a href="#order-form" class="bg-blue-600 px-6 py-2 rounded-full hover:bg-blue-700 transition shadow-lg shadow-blue-500/20 font-bold">Start Project</a>
-    </div>
-</nav>
-
-<!-- Hero Section -->
-<section class="min-h-[90vh] flex flex-col justify-center items-center text-center px-4 relative z-10">
-    <h1 class="text-5xl md:text-8xl font-black mb-6 leading-tight">
-        Digital <span class="gradient-text">Identity</span> <br> Experts
-    </h1>
-    <p class="text-gray-400 text-lg md:text-xl max-w-2xl mb-10 leading-relaxed">
-        3B Web Tech: Hum banate hain professional websites aur premium logos. 
-        Aapka vision, hamari technology.
-    </p>
-    <a href="#order-form" class="bg-white text-black font-bold py-4 px-12 rounded-2xl hover:bg-blue-600 hover:text-white transition-all transform hover:scale-105 shadow-xl">
-        Order Your Website
-    </a>
-</section>
-
-<!-- Services Section -->
-<section id="services" class="py-24 px-6 relative z-10">
-    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
-        <div class="glass p-10 rounded-[2.5rem] hover:border-blue-500 transition-all duration-500 group">
-            <div class="text-4xl mb-6">🌐</div>
-            <h3 class="text-3xl font-bold mb-4 group-hover:text-blue-400 transition">Web Development</h3>
-            <p class="text-gray-400 text-lg">Next-gen responsive websites jo aapke business ko grow karein.</p>
-        </div>
-        <div class="glass p-10 rounded-[2.5rem] hover:border-purple-500 transition-all duration-500 group">
-            <div class="text-4xl mb-6">🎨</div>
-            <h3 class="text-3xl font-bold mb-4 group-hover:text-purple-400 transition">Logo & Branding</h3>
-            <p class="text-gray-400 text-lg">Unique aur modern logos jo aapki brand value ko boost karein.</p>
-        </div>
-    </div>
-</section>
-
-<!-- Order Form Section -->
-<section id="order-form" class="py-24 px-6 relative z-10">
-    <div class="max-w-4xl mx-auto glass p-8 md:p-16 rounded-[3rem] shadow-2xl">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl md:text-5xl font-black mb-4 uppercase tracking-tighter">Get In Touch</h2>
-            <p class="text-gray-400 text-lg">Let's build something extraordinary together.</p>
-        </div>
-
-        <form id="clientForm" class="space-y-6">
-            <!-- Row 1: Name & Mobile -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label class="block mb-2 text-xs font-bold text-blue-400 uppercase tracking-widest ml-1">Full Name</label>
-                    <input type="text" id="full_name" placeholder="John Doe" class="form-input" required>
-                </div>
-                <div>
-                    <label class="block mb-2 text-xs font-bold text-blue-400 uppercase tracking-widest ml-1">Mobile Number</label>
-                    <input type="tel" id="phone" placeholder="+91 00000 00000" class="form-input" required>
-                </div>
-            </div>
-
-            <!-- Row 2: Email & Budget -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label class="block mb-2 text-xs font-bold text-blue-400 uppercase tracking-widest ml-1">Email Address</label>
-                    <input type="email" id="email" placeholder="john@example.com" class="form-input" required>
-                </div>
-                <div>
-                    <label class="block mb-2 text-xs font-bold text-blue-400 uppercase tracking-widest ml-1">Aapka Budget</label>
-                    <input type="text" id="budget" placeholder="e.g. ₹20,000" class="form-input" required>
-                </div>
-            </div>
-
-            <!-- Row 3: Service -->
-            <div>
-                <label class="block mb-2 text-xs font-bold text-blue-400 uppercase tracking-widest ml-1">Service Type</label>
-                <select id="service" class="form-input cursor-pointer">
-                    <option value="Full Website">Full Website Development</option>
-                    <option value="Logo Design">Professional Logo Design</option>
-                    <option value="Combo Package">Website + Logo (Combo)</option>
-                </select>
-            </div>
-
-            <!-- Row 4: Message -->
-            <div>
-                <label class="block mb-2 text-xs font-bold text-blue-400 uppercase tracking-widest ml-1">Project Details</label>
-                <textarea id="details" rows="5" placeholder="Explain your vision..." class="form-input" required></textarea>
-            </div>
-
-            <!-- Submit Button -->
-            <button type="submit" id="submitBtn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-5 rounded-2xl transition-all transform hover:scale-[1.02] shadow-xl shadow-blue-500/40 text-lg uppercase tracking-widest flex items-center justify-center">
-                <span>Submit Project Request</span>
-            </button>
-        </form>
-    </div>
-</section>
-
-<!-- Modern Footer Section -->
-<footer class="relative z-10 pt-20 border-t border-white/10 bg-black/40 backdrop-blur-md">
-    <div class="max-w-7xl mx-auto px-6 pb-12">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
-            <!-- Branding Column -->
-            <div class="space-y-4">
-                <div class="flex items-center gap-2">
-                    <span class="text-xl font-black text-blue-500 neon-text">3B WEB TECH</span>
-                </div>
-                <p class="text-gray-400 leading-relaxed">
-                    Elevating brands through high-performance web solutions and creative design identity. Your partner in digital transformation.
-                </p>
-            </div>
-
-            <!-- Quick Links -->
-            <div class="md:text-center">
-                <h4 class="text-white font-bold text-lg mb-6 uppercase tracking-widest">Quick Links</h4>
-                <ul class="space-y-4 text-gray-400">
-                    <li><a href="#" class="hover:text-blue-400 transition">Home</a></li>
-                    <li><a href="#services" class="hover:text-blue-400 transition">Services</a></li>
-                </ul>
-            </div>
-
-            <!-- Contact Info Column -->
+    <!-- FAQ MODAL -->
+    <div id="faqModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 invisible opacity-0">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="toggleFAQ()"></div>
+        <div class="glass relative max-w-2xl w-full p-8 md:p-12 rounded-[2.5rem] shadow-2xl max-h-[80vh] overflow-y-auto hide-scrollbar text-left">
+            <button onclick="toggleFAQ()" class="absolute top-6 right-6 text-2xl text-gray-400 hover:text-white">&times;</button>
+            <h2 class="text-3xl font-black mb-8 text-blue-500 uppercase tracking-tighter">Frequently Asked Questions</h2>
             <div class="space-y-6">
-                <h4 class="text-white font-bold text-lg mb-6 uppercase tracking-widest">Connect With Us</h4>
-                <div class="flex items-center gap-4 group">
-                    <div class="w-10 h-10 rounded-full glass flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition">📧</div>
-                    <span class="text-gray-400">yogesh251282@gmail.com</span>
+                <div class="border-b border-white/10 pb-4">
+                    <h3 class="text-lg font-bold text-white mb-2">Website banane mein kitna time lagta hai?</h3>
+                    <p class="text-gray-400 text-sm">Design aur requirements ke hisaab se usually 5-10 din lagte hain.</p>
                 </div>
-                <div class="flex items-center gap-4 group">
-                    <div class="w-10 h-10 rounded-full glass flex items-center justify-center text-green-400 group-hover:bg-green-500 group-hover:text-white transition">💬</div>
-                    <span class="text-gray-400">+91 9253343863</span>
+                <div class="border-b border-white/10 pb-4">
+                    <h3 class="text-lg font-bold text-white mb-2">Kya website mobile-friendly hogi?</h3>
+                    <p class="text-gray-400 text-sm">Haan, humari har website fully responsive hoti hai jo har device par sahi dikhegi.</p>
                 </div>
-                <div class="flex items-center gap-4 group">
-                    <div class="w-10 h-10 rounded-full glass flex items-center justify-center text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition">📍</div>
-                    <span class="text-gray-400">Gurugram Sector 72A, India</span>
+                <div class="pb-4">
+                    <h3 class="text-lg font-bold text-white mb-2">Kya mujhe baad mein support milega?</h3>
+                    <p class="text-gray-400 text-sm">Ji haan, hum project delivery ke baad bhi support aur maintenance provide karte hain.</p>
                 </div>
             </div>
         </div>
-
-        <div class="text-center pt-8 border-t border-white/5 text-gray-500 text-sm">
-            <p>&copy; 2026 3B Web Tech. All rights reserved. <span class="text-blue-500">Powered by 3B Developer.</span></p>
-        </div>
     </div>
-</footer>
 
-<!-- Three.js Logic -->
+    <!-- Navigation -->
+    <nav class="flex justify-between items-center p-6 max-w-7xl mx-auto relative z-10">
+        <div class="flex items-center gap-2">
+            <img src="assets/images/logo.png.png" alt="3B Logo" class="brand-logo">
+            <span class="text-2xl font-black tracking-widest text-blue-500 neon-text uppercase">3B WEB TECH</span>
+        </div>
+        <div class="space-x-8 hidden md:flex items-center">
+            <a href="#services" class="hover:text-blue-400 transition font-medium">Services</a>
+            <button onclick="toggleFAQ()" class="hover:text-blue-400 transition font-medium">FAQs</button>
+            <a href="#order-form" class="bg-blue-600 px-6 py-2 rounded-full hover:bg-blue-700 transition shadow-lg shadow-blue-500/20 font-bold">Start Project</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-[90vh] flex flex-col justify-center items-center text-center px-4 relative z-10">
+        <h1 class="text-5xl md:text-8xl font-black mb-6 leading-tight">
+            Digital <span class="gradient-text">Identity</span> <br> Experts
+        </h1>
+        <p class="text-gray-400 text-lg md:text-xl max-w-2xl mb-10 leading-relaxed text-center">
+            3B Web Tech: Hum banate hain professional websites aur premium logos. Aapka vision, hamari technology.
+        </p>
+        <a href="#order-form" class="bg-white text-black font-bold py-4 px-12 rounded-2xl hover:bg-blue-600 hover:text-white transition-all transform hover:scale-105 shadow-xl">
+            Order Your Website
+        </a>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 px-6 relative z-10 text-left">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div class="glass p-10 rounded-[2.5rem] hover:border-blue-500 transition-all duration-500 group">
+                <div class="text-4xl mb-6">🌐</div>
+                <h3 class="text-3xl font-bold mb-4 group-hover:text-blue-400 transition">Web Development</h3>
+                <p class="text-gray-400 text-lg">Next-gen responsive websites jo aapke business ko grow karein.</p>
+            </div>
+            <div class="glass p-10 rounded-[2.5rem] hover:border-purple-500 transition-all duration-500 group">
+                <div class="text-4xl mb-6">🎨</div>
+                <h3 class="text-3xl font-bold mb-4 group-hover:text-purple-400 transition">Logo & Branding</h3>
+                <p class="text-gray-400 text-lg">Unique aur modern logos jo aapki brand value ko boost karein.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Form Section -->
+    <section id="order-form" class="py-24 px-6 relative z-10 text-left">
+        <div class="max-w-4xl mx-auto glass p-8 md:p-16 rounded-[3rem] shadow-2xl">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-black mb-4 uppercase tracking-tighter text-center">Get In Touch</h2>
+                <p class="text-gray-400 text-lg text-center">Let's build something extraordinary together.</p>
+            </div>
+
+            <form id="clientForm" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block mb-2 text-xs font-bold text-blue-400 uppercase tracking-widest ml-1">Full Name</label>
+                        <input type="text" id="full_name" placeholder="John Doe" class="form-input" required>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-xs font-bold text-blue-400 uppercase tracking-widest ml-1">Mobile Number</label>
+                        <input type="tel" id="phone" placeholder="+91 00000 00000" class="form-input" required>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block mb-2 text-xs font-bold text-blue-400 uppercase tracking-widest ml-1">Email Address</label>
+                        <input type="email" id="email" placeholder="john@example.com" class="form-input" required>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-xs font-bold text-blue-400 uppercase tracking-widest ml-1">Aapka Budget</label>
+                        <input type="text" id="budget" placeholder="e.g. ₹20,000" class="form-input" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block mb-2 text-xs font-bold text-blue-400 uppercase tracking-widest ml-1">Service Type</label>
+                    <select id="service" class="form-input cursor-pointer">
+                        <option value="Full Website">Full Website Development</option>
+                        <option value="E-commerce Store">E-commerce / Online Store</option>
+                        <option value="Landing Page">One Page / Landing Page</option>
+                        <option value="Professional Logo">Professional Logo Design</option>
+                        <option value="3D Mascot Logo">3D or Mascot Logo</option>
+                        <option value="Combo Package">Website + Logo (Combo)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-2 text-xs font-bold text-blue-400 uppercase tracking-widest ml-1">Project Details</label>
+                    <textarea id="details" rows="5" placeholder="Explain your vision..." class="form-input" required></textarea>
+                </div>
+                <button type="submit" id="submitBtn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-5 rounded-2xl transition-all transform hover:scale-[1.02] shadow-xl shadow-blue-500/40 text-lg uppercase tracking-widest flex items-center justify-center">
+                    <span>Submit Project Request</span>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Original Footer Restored -->
+    <footer class="relative z-10 pt-20 border-t border-white/10 bg-black/40 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 pb-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16 text-left">
+                <!-- Branding Column -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2 text-left">
+                        <span class="text-xl font-black text-blue-500 neon-text">3B WEB TECH</span>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed text-sm">
+                        Elevating brands through high-performance web solutions and creative design identity. Your partner in digital transformation.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="md:text-center text-left">
+                    <h4 class="text-white font-bold text-lg mb-6 uppercase tracking-widest text-left md:text-center">Quick Links</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li><a href="#" class="hover:text-blue-400 transition">Home</a></li>
+                        <li><a href="#services" class="hover:text-blue-400 transition">Services</a></li>
+                        <li><button onclick="toggleFAQ()" class="hover:text-blue-400 transition">FAQs</button></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info Column (Original Design) -->
+                <div class="space-y-6">
+                    <h4 class="text-white font-bold text-lg mb-6 uppercase tracking-widest text-left">Connect With Us</h4>
+                    <div class="flex items-center gap-4 group">
+                        <div class="w-10 h-10 rounded-full glass flex items-center justify-center text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition text-xs">📧</div>
+                        <span class="text-gray-400 text-sm">yogesh251282@gmail.com</span>
+                    </div>
+                    <div class="flex items-center gap-4 group">
+                        <div class="w-10 h-10 rounded-full glass flex items-center justify-center text-green-400 group-hover:bg-green-500 group-hover:text-white transition text-xs">💬</div>
+                        <span class="text-gray-400 text-sm">+91 9253343863</span>
+                    </div>
+                    <div class="flex items-center gap-4 group text-left">
+                        <div class="w-10 h-10 rounded-full glass flex items-center justify-center text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition text-xs">📍</div>
+                        <span class="text-gray-400 text-sm">Gurugram Sector 72A, India</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright Line -->
+            <div class="text-center pt-8 border-t border-white/5 text-gray-500 text-sm">
+                <p>&copy; 2026 3B Web Tech. All rights reserved. <span class="text-blue-500">Powered by 3B Developer.</span></p>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- SCRIPTS -->
 <script>
+    // PRELOADER / SPLASH SCREEN LOGIC
+    window.addEventListener('load', () => {
+        const preloader = document.getElementById('preloader');
+        const mainContent = document.getElementById('main-content');
+        
+        setTimeout(() => {
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden';
+            mainContent.style.opacity = '1';
+            document.body.classList.remove('overflow-hidden');
+        }, 2500); // 2.5 seconds show landing
+    });
+
+    function toggleFAQ() {
+        const modal = document.getElementById('faqModal');
+        if (modal.classList.contains('invisible')) {
+            modal.classList.remove('invisible', 'opacity-0');
+            modal.classList.add('visible', 'opacity-100');
+            document.body.style.overflow = 'hidden';
+        } else {
+            modal.classList.add('invisible', 'opacity-0');
+            modal.classList.remove('visible', 'opacity-100');
+            document.body.style.overflow = 'auto';
+        }
+    }
+
     let scene, camera, renderer, object;
     function init() {
         scene = new THREE.Scene();
@@ -264,29 +334,20 @@
         const light = new THREE.PointLight(0xffffff, 1, 100);
         light.position.set(20, 20, 20);
         scene.add(light);
-        scene.add(new THREE.AmbientLight(0x404040));
         camera.position.z = 40;
     }
     function animate() {
         requestAnimationFrame(animate);
-        object.rotation.x += 0.003;
-        object.rotation.y += 0.003;
+        object.rotation.x += 0.003; object.rotation.y += 0.003;
         renderer.render(scene, camera);
     }
-    window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    });
     init(); animate();
 </script>
 
-<!-- Firebase & EmailJS Integration -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // 1. Initialize EmailJS with your Public Key
     emailjs.init("SLPmf9hvW35np6Ur-");
 
     const firebaseConfig = {
@@ -306,10 +367,9 @@
 
     clientForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-
         const originalText = submitBtn.innerHTML;
         submitBtn.disabled = true;
-        submitBtn.innerHTML = `<span class="loading-spinner"></span> Sending...`;
+        submitBtn.innerHTML = `<span>Sending Request...</span>`;
 
         const formData = {
             full_name: document.getElementById('full_name').value,
@@ -322,17 +382,12 @@
         };
 
         try {
-            // A. Save to Firebase Database
             await addDoc(collection(db, "requests"), formData);
-
-            // B. Send Real-time Email Notification
             await emailjs.send("service_asie8ze", "template_gydbuw9", formData);
-
             alert("Success! Hum aapse jald hi contact karenge.");
             clientForm.reset();
         } catch (error) {
-            console.error("Error: ", error);
-            alert("Something went wrong! Please try again.");
+            alert("Error sending request!");
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalText;
