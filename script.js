@@ -77,7 +77,7 @@ if (contactForm) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Something went wrong. Please check your EmailJS IDs.',
+                    text: 'Something went wrong. Please check your connection or EmailJS IDs.',
                     background: '#1e293b',
                     color: '#fff',
                     confirmButtonColor: '#ef4444'
@@ -86,7 +86,6 @@ if (contactForm) {
                 btn.innerHTML = originalBtnContent;
                 btn.style.opacity = '1';
                 btn.disabled = false;
-                console.log("EmailJS Error:", error);
             });
     });
 }
